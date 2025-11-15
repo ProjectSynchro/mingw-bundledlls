@@ -43,44 +43,96 @@ else:
     path_prefixes = DEFAULT_PATH_PREFIXES
 
 # This blacklist may need extending
-blacklist = [
-    "advapi32.dll", "kernel32.dll", "msvcrt.dll", "ole32.dll", "user32.dll",
-    "ws2_32.dll", "comdlg32.dll", "gdi32.dll", "imm32.dll", "oleaut32.dll",
-    "shell32.dll", "winmm.dll", "winspool.drv", "wldap32.dll",
-    "ntdll.dll", "d3d9.dll", "mpr.dll", "crypt32.dll", "dnsapi.dll",
-    "shlwapi.dll", "version.dll", "iphlpapi.dll", "msimg32.dll", "setupapi.dll",
-    "opengl32.dll", "dwmapi.dll", "uxtheme.dll", "secur32.dll", "gdiplus.dll",
-    "usp10.dll", "comctl32.dll", "wsock32.dll", "netapi32.dll", "userenv.dll",
-    "avicap32.dll", "avrt.dll", "psapi.dll", "mswsock.dll", "glu32.dll",
-    "bcrypt.dll", "rpcrt4.dll", "hid.dll", "vulkan-1.dll", "dbghelp.dll",
-    "mf.dll", "mfplat.dll", "mfreadwrite.dll", "ncrypt.dll",  "cfgmgr32.dll",
-    "powrprof.dll", "wininet.dll", "wtsapi32.dll",
-    # directx 3d 11 
-    "d3d11.dll", "dxgi.dll", "dwrite.dll",
-    # ucrt
-    "api-ms-win-core-console-l1-1-0.dll", "api-ms-win-core-datetime-l1-1-0.dll"
-    "api-ms-win-core-debug-l1-1-0.dll", "api-ms-win-core-errorhandling-l1-1-0.dll",
-    "api-ms-win-core-file-l1-1-0.dll", "api-ms-win-core-file-l1-2-0.dll",
-    "api-ms-win-core-file-l2-1-0.dll", "api-ms-win-core-handle-l1-1-0.dll",
-    "api-ms-win-core-heap-l1-1-0.dll", "api-ms-win-core-interlocked-l1-1-0.dll",
-    "api-ms-win-core-libraryloader-l1-1-0.dll", "api-ms-win-core-localization-l1-2-0.dll",
-    "api-ms-win-core-memory-l1-1-0.dll", "api-ms-win-core-namedpipe-l1-1-0.dll",
-    "api-ms-win-core-path-l1-1-0.dll" "api-ms-win-core-processenvironment-l1-1-0.dll", 
-    "api-ms-win-core-processthreads-l1-1-0.dll", "api-ms-win-core-processthreads-l1-1-1.dll", 
-    "api-ms-win-core-profile-l1-1-0.dll", "api-ms-win-core-rtlsupport-l1-1-0.dll", 
-    "api-ms-win-core-string-l1-1-0.dll", "api-ms-win-core-synch-l1-1-0.dll", 
-    "api-ms-win-core-synch-l1-2-0.dll", "api-ms-win-core-sysinfo-l1-1-0.dll", 
-    "api-ms-win-core-timezone-l1-1-0.dll", "api-ms-win-core-util-l1-1-0.dll", 
-    "api-ms-win-crt-conio-l1-1-0.dll", "api-ms-win-crt-convert-l1-1-0.dll", 
-    "api-ms-win-crt-environment-l1-1-0.dll", "api-ms-win-crt-filesystem-l1-1-0.dll", 
-    "api-ms-win-crt-heap-l1-1-0.dll", "api-ms-win-crt-locale-l1-1-0.dll", 
-    "api-ms-win-crt-math-l1-1-0.dll", "api-ms-win-crt-multibyte-l1-1-0.dll", 
-    "api-ms-win-crt-private-l1-1-0.dll", "api-ms-win-crt-process-l1-1-0.dll", 
-    "api-ms-win-crt-runtime-l1-1-0.dll", "api-ms-win-crt-stdio-l1-1-0.dll", 
-    "api-ms-win-crt-string-l1-1-0.dll", "api-ms-win-crt-time-l1-1-0.dll", 
-    "api-ms-win-crt-utility-l1-1-0.dll", "ucrtbase.dll"
-]
+# All builtin Windows DLLs and APISet stubs that should never be bundled.
+blacklist = {
 
+    # --- Core system ---
+    "kernel32.dll", "kernelbase.dll", "ntdll.dll",
+    "advapi32.dll", "sechost.dll", "user32.dll", "gdi32.dll",
+    "gdi32full.dll", "win32u.dll", "ucrtbase.dll",
+
+    # --- C runtime (MS / Universal CRT) ---
+    "msvcrt.dll", "vcruntime140.dll", "vcruntime140_1.dll",
+    "api-ms-win-crt-conio-l1-1-0.dll", "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-environment-l1-1-0.dll", "api-ms-win-crt-filesystem-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll", "api-ms-win-crt-locale-l1-1-0.dll",
+    "api-ms-win-crt-math-l1-1-0.dll", "api-ms-win-crt-multibyte-l1-1-0.dll",
+    "api-ms-win-crt-private-l1-1-0.dll", "api-ms-win-crt-process-l1-1-0.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll", "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll", "api-ms-win-crt-time-l1-1-0.dll",
+    "api-ms-win-crt-utility-l1-1-0.dll",
+
+    # --- Widespread API-Set DLLs (system stubs) ---
+    # NOTE: These *never* belong in an app bundle.
+    "api-ms-win-core-console-l1-1-0.dll",
+    "api-ms-win-core-datetime-l1-1-0.dll",
+    "api-ms-win-core-debug-l1-1-0.dll",
+    "api-ms-win-core-errorhandling-l1-1-0.dll",
+    "api-ms-win-core-file-l1-1-0.dll",
+    "api-ms-win-core-file-l1-2-0.dll",
+    "api-ms-win-core-file-l2-1-0.dll",
+    "api-ms-win-core-handle-l1-1-0.dll",
+    "api-ms-win-core-heap-l1-1-0.dll",
+    "api-ms-win-core-interlocked-l1-1-0.dll",
+    "api-ms-win-core-libraryloader-l1-1-0.dll",
+    "api-ms-win-core-localization-l1-2-0.dll",
+    "api-ms-win-core-memory-l1-1-0.dll",
+    "api-ms-win-core-namedpipe-l1-1-0.dll",
+    "api-ms-win-core-path-l1-1-0.dll",
+    "api-ms-win-core-processenvironment-l1-1-0.dll",
+    "api-ms-win-core-processthreads-l1-1-0.dll",
+    "api-ms-win-core-processthreads-l1-1-1.dll",
+    "api-ms-win-core-profile-l1-1-0.dll",
+    "api-ms-win-core-rtlsupport-l1-1-0.dll",
+    "api-ms-win-core-string-l1-1-0.dll",
+    "api-ms-win-core-synch-l1-1-0.dll",
+    "api-ms-win-core-synch-l1-2-0.dll",
+    "api-ms-win-core-sysinfo-l1-1-0.dll",
+    "api-ms-win-core-timezone-l1-1-0.dll",
+    "api-ms-win-core-util-l1-1-0.dll",
+    "api-ms-win-core-winrt-error-l1-1-0.dll",
+
+    # --- Shell, COM, OLE ---
+    "ole32.dll", "oleaut32.dll", "combase.dll", "comctl32.dll",
+    "shell32.dll", "shlwapi.dll", "propsys.dll", "comdlg32.dll",
+
+    # --- Networking & WinHTTP ---
+    "ws2_32.dll", "wsock32.dll", "winhttp.dll", "wininet.dll",
+    "iphlpapi.dll", "dnsapi.dll", "mswsock.dll", "netapi32.dll",
+
+    # --- Security ---
+    "crypt32.dll", "bcrypt.dll", "bcryptprimitives.dll",
+    "secur32.dll", "ncrypt.dll", "schannel.dll",
+
+    # --- Multimedia ---
+    "winmm.dll", "dsound.dll", "wdmaud.drv",
+    "mf.dll", "mfplat.dll", "mfreadwrite.dll", "avrt.dll",
+
+    # --- DirectX ---
+    "d3d8.dll", "d3d9.dll", "d3d10.dll", "d3d10_1.dll",
+    "d3d11.dll", "d2d1.dll", "dwrite.dll", "dxgi.dll",
+    "dcomp.dll", "dxcore.dll",
+
+    # --- OpenGL (system ICD wrapper) ---
+    "opengl32.dll", "glu32.dll",
+
+    # --- Graphics stack ---
+    "uxtheme.dll", "dwmapi.dll", "gdiplus.dll", "msimg32.dll",
+
+    # --- Printing, input, devices ---
+    "winspool.drv", "hid.dll", "setupapi.dll", "cfgmgr32.dll",
+
+    # --- System support libraries ---
+    "rpcrt4.dll", "psapi.dll", "wtsapi32.dll", "version.dll",
+    "ktmw32.dll", "powrprof.dll", "mpr.dll", "userenv.dll",
+    "advpack.dll", "dbghelp.dll",
+
+    # --- Misc old / compatibility DLLs ---
+    "avicap32.dll", "usp10.dll",
+
+    # --- Vulkan loader is always system-provided ---
+    "vulkan-1.dll",
+}
 
 def find_full_path(filename, path_prefixes):
     for path_prefix in path_prefixes:
