@@ -121,6 +121,7 @@ blacklist = {
 
     # --- Printing, input, devices ---
     "winspool.drv", "hid.dll", "setupapi.dll", "cfgmgr32.dll",
+    "imm32.dll",
 
     # --- System support libraries ---
     "rpcrt4.dll", "psapi.dll", "wtsapi32.dll", "version.dll",
