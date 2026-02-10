@@ -91,6 +91,7 @@ blacklist = {
     "api-ms-win-core-timezone-l1-1-0.dll",
     "api-ms-win-core-util-l1-1-0.dll",
     "api-ms-win-core-winrt-error-l1-1-0.dll",
+    "api-ms-win-core-winrt-l1-1-0.dll",
 
     # --- Shell, COM, OLE ---
     "ole32.dll", "oleaut32.dll", "combase.dll", "comctl32.dll",
